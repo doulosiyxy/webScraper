@@ -22,7 +22,9 @@ def main() -> None:
       break
     elif mainMenuOption == "2":
       tyreInfo = fc.getManualSearchInputs()
-      postcode = input("Enter your postcode: ").replace(" ", "")
+      while not fc.tyreInputsAreValid(tyreInfo):
+        tyreInfo = fc.getManualSearchInputs()
+      postcode = input("Postcode: ").replace(" ", "")
       isSuccess = fc.scrapeData(tyreInfo, postcode)
       if isSuccess:
         time.sleep(2)
@@ -40,6 +42,6 @@ def main() -> None:
       mainMenuOption = input("Select 1 or 2: ")
 
 
-'''if __name__ == '__main__':
+if __name__ == '__main__':
   while True:
-    main()'''
+    main()

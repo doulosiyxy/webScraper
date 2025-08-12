@@ -16,9 +16,6 @@ headers = {
     "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36"
 }
 
-for k, v in db["products"]["205-55-16"].items():
-  print(f"'{k}' : {v.value},")
-
 
 def storeSearchCriteria(searchList: list[str]) -> None:
   """
@@ -103,11 +100,26 @@ def getManualSearchInputs() -> str:
   """
 
   clearConsole()
-  print("Enter the following tyre information: \n")
+  print("Enter the following information: \n")
   width = input("Tyre width: ")
   profile = input("Tyre profile: ")
   size = input("Tyre size: ")
   return f"{width}-{profile}-{size}"
+
+
+def tyreInputsAreValid(value: str) -> bool:
+  """
+  Checks if manual inputs are valid.
+
+  :param value: tyre info string
+  :type value: str
+
+  :example:
+  >>> inputIsValid("225-55-16")
+  True
+
+  """
+  return True if value.replace("-", "").isdigit() else False
 
 
 def scrapeData(tyreInfo: str, postcode: str) -> bool:
@@ -117,7 +129,7 @@ def scrapeData(tyreInfo: str, postcode: str) -> bool:
   :param tyreInfo: Tyre search criteria
   :type tyreInfo: str
   :param postcode: postcode
-  :type tyreInfo: str
+  :type postcode: str
   
   """
   print(f"REQUESTING DATA FOR {tyreInfo}...")
@@ -141,18 +153,36 @@ def scrapeData(tyreInfo: str, postcode: str) -> bool:
         button = product.select_one("button")
         id = button.get("data-partcode") if button else f"{i+1}"
         site = website
-        brand = product.select_one(".details img").get("alt")
-        pattern = product.select_one(
-            "div.tyreresult .details .pattern_link").text
-        size = product.select_one("div.details p:nth-child(3)").text.strip()
+        brand = isElement(product.select_one(".details img").get("alt"))
+        pattern = isElement(
+            product.select_one("div.tyreresult .details .pattern_link").text)
+        size = isElement(
+            product.select_one("div.details p:nth-child(3)").text.strip())
         season = ""
-        price = product.select_one(".price strong").text.strip()
+        price = isElement(product.select_one(".price strong").text.strip())
         dataList = [site, brand, pattern, size, season, price]
         updateDb(id, dataList, tyreInfo)
       except Exception as e:
         logError(f"{dt.datetime.today()}: error {e}", e)
 
   return True
+
+
+def isElement(element: str) -> str:
+  """
+  Checks if element exists. Return element contents if true, "n/a" if false.
+
+  :param element: html element, text or attribute
+  :type tyreInfo: str
+  :return: True or False:
+  :rtype: bool
+
+  :example:
+  >>> isElement(product.select_one(".details img").get("alt"))
+  "Avon Tyres"
+
+  """
+  return element if element else "n/a"
 
 
 def getTyreData(tyreInfo: str, postcode: str) -> Optional[str]:
