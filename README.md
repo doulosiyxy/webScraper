@@ -1,4 +1,4 @@
-# Tyre Web Scraper 
+# Tyre Web Scraper
 
 ## Description
 
@@ -29,7 +29,7 @@ product : {
 }
 ```
 
-For more efficiency I considered the following, but concluded it would reduce readability, scalability, efficiency and future features:
+For more efficiency I considered the following, but concluded it would reduce readability, scalability and future features:
 
 
 ```
@@ -40,7 +40,7 @@ product : {
   }
 ```
 
-I could have added a relational structure to reduce redundancy and increase efficiency. But this would create greater complexity and reduce readability. Perhaps, it would be worth it and I would like to try and add it in the future. This would require programmatically enumerating repeat site, brand, size and pattern data into separate dictionaries with unique index/integer keys, imitating SQL relational databases. Then instead of repeating strings throughout the database, I would input the corresponding indices/integers much like foreign keys. 
+I could have added a relational structure to reduce redundancy and increase efficiency. But this would create greater complexity and reduce readability. Perhaps, it would be worth it and I would like to try and add it in the future. This would require programmatically enumerating repeat site, brand, size and pattern data into separate dictionaries with unique index/integer keys, imitating SQL relational databases. Then instead of repeating strings throughout the database, I would input the corresponding indices/integers much like foreign keys.
 
 ## Time-Management
 
@@ -48,7 +48,7 @@ I could have added a relational structure to reduce redundancy and increase effi
 
 ## Challenges
 
-No major challenges. Had to review some old builds of mine and research the CSV module somewhat. Minimal AI Assistance. 
+No major challenges. Had to review some old builds of mine and research the CSV module somewhat. Minimal AI Assistance.
 
 ## Working example here:
 
